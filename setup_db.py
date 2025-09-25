@@ -1,18 +1,20 @@
 from flask import Flask
-from app.routes.atividades_routes import atividades 
+from app.routes.atividades_routes import atividades
+from app.models.atividade_model import Atividade
 from flask_sqlalchemy import SQLAlchemy
-from dotenv import load_dotenv
 import os
 from loguru import logger
+from dotenv import load_dotenv
 
 db_atividades = SQLAlchemy()
+
 load_dotenv()
 
 def create_app():
     try:
         app = Flask(__name__)
 
-        logger.info("Conectando ao banco de dados...")
+        logger.info("Configurando banco de dados...")
         DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
         DB_PORT = int(os.getenv('DB_PORT', 3306))
         DB_USER = os.getenv('DB_USER', 'root')
@@ -23,10 +25,11 @@ def create_app():
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
         db_atividades.init_app(app)
+
+        logger.info("Registrando blueprints")
         app.register_blueprint(atividades)
 
-        logger.success("Banco de dados conectado com sucesso!")
         return app
     except Exception as e:
         logger.error(f"Erro ao configurar banco de dados: {e}")
-        raise e
+        raise
