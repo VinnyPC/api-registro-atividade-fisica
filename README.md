@@ -75,3 +75,20 @@ Por padrão, a API fica disponível em: http://127.0.0.1:5000
 | POST       | /atividades/            | Criar nova ativide               |
 | GET        | /atividades/            | Listar todas as atividades       |
 | GET        | /atividades/<funcional> | Buscar atividades pela funcional |
+
+---
+
+### Testes feitos via insomnia 
+
+#### Registrar uma nova atividade física
+<img width="1912" height="1030" alt="image" src="https://github.com/user-attachments/assets/5631bf7f-0f6b-4f72-9e34-5f1202711c69" />
+
+#### Listar todas as atividades registradas
+<img width="1912" height="1032" alt="image" src="https://github.com/user-attachments/assets/fd4bfc0d-0257-429f-84eb-c94e1d545eb6" />
+
+
+#### Listar todas as atividades de um funcionário específico
+
+<img width="1911" height="1023" alt="image" src="https://github.com/user-attachments/assets/7c19c1ba-29dc-44cc-a720-6ff541f8c332" />
+
+
