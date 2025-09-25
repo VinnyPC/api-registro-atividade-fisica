@@ -1,4 +1,4 @@
-from .. import db_atividades
+from app.extensions import db_atividades
 
 class Atividade(db_atividades.Model):
     __tablename__ = 'tb_atividades'
