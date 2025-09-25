@@ -5,3 +5,6 @@ rodar api localmente: python run.py
 
 setup: python setup_db.py
 
+instalar dependencias: pip install -r requirements.txt
+
+rodar testes: pytest -v

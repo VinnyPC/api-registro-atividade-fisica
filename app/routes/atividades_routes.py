@@ -9,7 +9,6 @@ atividades = Blueprint("atividades", __name__, url_prefix="/atividades")
 def create_atividade():
     data = request.json
     try:
-        logger.info("Cadastrando atividade...")
         atividade = Atividade(
             funcional=data.get("funcional"),
             nome=data.get("nome"),
@@ -23,11 +22,9 @@ def create_atividade():
         )
         db_atividades.session.add(atividade)
         db_atividades.session.commit()
-        logger.success("Atividade cadastrada com sucesso")
         return jsonify({"message": "Atividade criada com sucesso!", "id": atividade.id}), 201
     except Exception as e:
         db_atividades.session.rollback()
-        logger.error(f"Erro ao cadastrar atividade: {e}")
         return jsonify({"error": str(e)}), 400
 
 
@@ -35,7 +32,6 @@ def create_atividade():
 @atividades.route("/", methods=["GET"])
 def get_atividades():
     try:
-        logger.info("Buscando atividades...")
         atividades_list = Atividade.query.all()
         if atividades_list:
             return jsonify([{
@@ -53,7 +49,6 @@ def get_atividades():
         else:
             return jsonify({"message": "Nenhuma atividade encontrada"}), 404
     except Exception as e:
-        logger.error(f"Erro ao buscar atividades: {e}")
         return jsonify({"error": str(e)}), 400
 
     
@@ -77,6 +72,5 @@ def get_atividades_by_funcional(funcional):
                 "calorias": atividade.calorias
             })
         except Exception as e:
-            logger.error(f"Erro ao buscar atividades: {e}")
             return jsonify({"error": str(e)}), 400
     return jsonify({"message": "Atividade não encontrada"}), 404
