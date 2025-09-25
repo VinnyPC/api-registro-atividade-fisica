@@ -56,21 +56,23 @@ def get_atividades():
 
 @atividades.route("/<string:funcional>", methods=["GET"])
 def get_atividades_by_funcional(funcional):
-    atividade = Atividade.query.filter_by(funcional=funcional).first()
-    if atividade:
-        try:
-            return jsonify({
-                "id": atividade.id,
-                "funcional": atividade.funcional,
-                "nome": atividade.nome,
-                "descricao": atividade.descricao,
-                "tipo": atividade.tipo,
-                "duracao": atividade.duracao,
-                "distancia": atividade.distancia,
-                "intensidade": atividade.intensidade,
-                "data": str(atividade.data),
-                "calorias": atividade.calorias
-            })
-        except Exception as e:
+    atividades_list = Atividade.query.filter_by(funcional=funcional).all()
+    
+    try:
+        if atividades_list:
+            return jsonify([{
+                "id": a.id,
+                "funcional": a.funcional,
+                "nome": a.nome,
+                "descricao": a.descricao,
+                "tipo": a.tipo,
+                "duracao": a.duracao,
+                "distancia": a.distancia,
+                "intensidade": a.intensidade,
+                "data": str(a.data),
+                "calorias": a.calorias
+            } for a in atividades_list])
+    except Exception as e:
             return jsonify({"error": str(e)}), 400
     return jsonify({"message": "Atividade não encontrada"}), 404
+
