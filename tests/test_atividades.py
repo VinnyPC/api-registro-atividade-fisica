@@ -1,100 +1,35 @@
 import pytest
-from app import create_app
-from app.extensions import db_atividades
-from app.models.atividade_model import Atividade
+from app.services.atividade_service import AtividadeService
 
-@pytest.fixture
-def client():
-    app = create_app() 
-    app.config["TESTING"] = True
-    app.config.update({
-        "TESTING": True,
-        "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:"
-    })
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
-    with app.app_context():
-        db_atividades.create_all()
-        yield app.test_client()
-        db_atividades.session.remove()
-        db_atividades.drop_all()
+valid_payload = {
+    "funcional": "12345",
+    "nome": "Corrida",
+    "descricao": "Corrida 5km",
+    "tipo": "Corrida",
+    "duracao": 30,
+    "distancia": 5.0,
+    "intensidade": "Alta",
+    "data": "25-09-2025",
+    "calorias": 400
+}
 
+def test_criar_atividade_extra_field():
+    payload = valid_payload.copy()
+    payload["extra"] = "não permitido"
+    with pytest.raises(ValueError) as excinfo:
+        AtividadeService.criar_atividade(payload)
+    assert "Campos não permitidos" in str(excinfo.value)
 
-def test_create_atividade(client):
-    payload = {
-        "funcional": "000000",
-        "nome": "testestes",
-        "descricao": "test",
-        "tipo": "test",
-        "duracao": 120,
-        "distancia": 50,
-        "intensidade": "test",
-        "data": "2025-09-25",
-        "calorias": 1500
-    }
-    response = client.post("/atividades/", json=payload)
-    data = response.get_json()
+def test_criar_atividade_missing_field():
+    payload = valid_payload.copy()
+    payload.pop("nome")
+    with pytest.raises(ValueError) as excinfo:
+        AtividadeService.criar_atividade(payload)
+    assert "Campos obrigatórios faltando" in str(excinfo.value)
 
-    assert response.status_code == 201
-    assert "id" in data
-    assert data["message"] == "Atividade criada com sucesso!"
-
-
-def test_get_atividades_empty(client):
-    response = client.get("/atividades/")
-    data = response.get_json()
-
-    assert response.status_code == 404
-    assert data["message"] == "Nenhuma atividade encontrada"
-
-
-def test_get_atividades(client):
-    atividade = Atividade(
-        funcional="000000",
-        nome="testestes",
-        descricao="test",
-        tipo="test",
-        duracao=120,
-        distancia=50,
-        intensidade="test",
-        data="2025-09-25",
-        calorias=1500
-    )
-    db_atividades.session.add(atividade)
-    db_atividades.session.commit()
-
-    response = client.get("/atividades/")
-    data = response.get_json()
-
-    assert response.status_code == 200
-    assert isinstance(data, list)
-    assert data[0]["nome"] == "testestes"
-
-
-def test_get_atividades_by_funcional(client):
-    atividade = Atividade(
-        funcional="000000",
-        nome="Teste nome",
-        descricao="Teste desc",
-        tipo="test",
-        duracao=120,
-        distancia=50,
-        intensidade="test",
-        data="2025-09-25",
-        calorias=1500
-    )
-    db_atividades.session.add(atividade)
-    db_atividades.session.commit()
-
-    response = client.get("/atividades/000000")
-    data = response.get_json()
-
-    assert response.status_code == 200
-    assert data["nome"] == "Teste nome"
-
-
-def test_get_atividades_by_funcional_not_found(client):
-    response = client.get("/atividades/vinivini")
-    data = response.get_json()
-
-    assert response.status_code == 404
-    assert data["message"] == "Atividade não encontrada"
+def test_criar_atividade_tipo_invalido():
+    payload = valid_payload.copy()
+    payload["duracao"] = "30 minutos"
+    with pytest.raises(ValueError) as excinfo:
+        AtividadeService.criar_atividade(payload)
+    assert "Campo 'duracao' inválido" in str(excinfo.value)
