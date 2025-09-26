@@ -19,3 +19,17 @@ class Atividade(db_atividades.Model):
             f"<Atividade id={self.id} nome={self.nome} funcional={self.funcional} "
             f"tipo={self.tipo} data={self.data}>"
         )
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "funcional": self.funcional,
+            "nome": self.nome,
+            "descricao": self.descricao,
+            "tipo": self.tipo,
+            "duracao": self.duracao,
+            "distancia": self.distancia,
+            "intensidade": self.intensidade,
+            "data": str(self.data),
+            "calorias": self.calorias
+        }
