@@ -30,6 +30,6 @@ class Atividade(db_atividades.Model):
             "duracao": self.duracao,
             "distancia": self.distancia,
             "intensidade": self.intensidade,
-            "data": str(self.data),
+            "data": self.data.strftime("%d/%m/%Y") if self.data else None,
             "calorias": self.calorias
         }
