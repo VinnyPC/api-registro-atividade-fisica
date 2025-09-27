@@ -23,11 +23,27 @@ def create_atividade():
 @atividades.route("/", methods=["GET"])
 def get_atividades():
     try:
-        atividades_list = AtividadeService.listar_atividades()
-        return jsonify(atividades_schema.dump(atividades_list)), 200
+
+        page = int(request.args.get("page", 1))
+        per_page = int(request.args.get("per_page", 10))
+
+
+        filters = {}
+        tipo = request.args.get("tipo")
+        data_inicio = request.args.get("data_inicio")
+        data_fim = request.args.get("data_fim")
+
+        if tipo:
+            filters["tipo"] = tipo
+        if data_inicio and data_fim:
+            filters["data_inicio"] = data_inicio
+            filters["data_fim"] = data_fim
+
+        atividades = AtividadeService.listar_atividades(page, per_page, filters)
+
+        return jsonify(atividades), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 @atividades.route("/<string:funcional>", methods=["GET"])
 def get_atividades_by_funcional(funcional):

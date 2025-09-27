@@ -10,10 +10,10 @@ class AtividadeService:
     @staticmethod
     def criar_atividade(data: dict):
         return AtividadeRepository.create(data)
-
+    
     @staticmethod
-    def listar_atividades():
-        return AtividadeRepository.get_all()
+    def listar_atividades(page=1, per_page=10, filters=None):
+        return AtividadeRepository.get_paginated_and_filtered(page, per_page, filters)
 
     @staticmethod
     def buscar_por_funcional(funcional):
