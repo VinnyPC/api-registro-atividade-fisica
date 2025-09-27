@@ -4,11 +4,12 @@ from loguru import logger
 
 app = create_app()
 
-# Cria tabelas no banco se ainda não existirem
 with app.app_context(): 
     db_atividades.create_all()
     logger.success("Tabelas atualizadas com sucesso!")
 
-# Roda o Flask
+
 if __name__ == "__main__":
     app.run(debug=True)
+
+    
