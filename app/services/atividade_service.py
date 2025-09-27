@@ -44,3 +44,23 @@ class AtividadeService:
     @staticmethod
     def buscar_por_funcional(funcional):
         return AtividadeRepository.get_by_funcional(funcional)
+
+    @staticmethod
+    def editar_atividade(id, data):
+        atividade = AtividadeRepository.get_by_id(id)
+        if not atividade:
+            return None
+
+        for key, value in data.items():
+            if hasattr(atividade, key):
+                setattr(atividade, key, value)
+
+        return AtividadeRepository.update(atividade)
+
+    @staticmethod
+    def deletar_atividade(id):
+        atividade = AtividadeRepository.get_by_id(id)
+        if not atividade:
+            return None
+        AtividadeRepository.delete(atividade)
+        return True

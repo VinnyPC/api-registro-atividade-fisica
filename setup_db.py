@@ -46,7 +46,7 @@ if __name__ == "__main__":
         logger.info(f"Banco de dados '{DB_NAME}' criado ou já existente.")
         conn.close()
     except Exception as e:
-        logger.error(f"Erro ao criar banco de dados: {e}")
+        logger.error(f"Erro ao criar banco de dados: {e}, tente verificar o arquivo .env")
         raise
 
     app = create_app()

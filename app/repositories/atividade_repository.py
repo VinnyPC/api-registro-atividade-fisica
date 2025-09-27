@@ -17,3 +17,17 @@ class AtividadeRepository:
     @staticmethod
     def get_by_funcional(funcional):
         return Atividade.query.filter_by(funcional=funcional).all()
+    
+    @staticmethod
+    def get_by_id(id):
+        return Atividade.query.get(id)
+
+    @staticmethod
+    def update(atividade):
+        db_atividades.session.commit()
+        return atividade
+
+    @staticmethod
+    def delete(atividade):
+        db_atividades.session.delete(atividade)
+        db_atividades.session.commit()
