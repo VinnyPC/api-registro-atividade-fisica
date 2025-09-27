@@ -8,9 +8,25 @@ from app.exceptions.errors import register_error_handlers
 
 load_dotenv()
 
+def configure_logger():
+    if not os.path.exists("logs"):
+        os.mkdir("logs")
+
+    logger.add(
+        "logs/app.log",    
+        rotation="10 MB",   
+        retention="10 days",
+        level="INFO",       
+        backtrace=True,     
+        diagnose=True       
+    )
+
+    return logger
+
 def create_app():
     try:
         app = Flask(__name__)
+        logger = configure_logger()
 
         DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
         DB_PORT = int(os.getenv('DB_PORT', 3306))
@@ -31,6 +47,7 @@ def create_app():
             db_atividades.create_all()
 
         logger.info("App inicializado com sucesso!")
+
 
         register_error_handlers(app)
         return app

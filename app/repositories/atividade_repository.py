@@ -1,14 +1,21 @@
 from app.models.atividade_model import Atividade
 from app.extensions import db_atividades
+from loguru import logger
 
 class AtividadeRepository:
 
     @staticmethod
     def create(data):
-        atividade = Atividade(**data)
-        db_atividades.session.add(atividade)
-        db_atividades.session.commit()
-        return atividade
+        try:
+            atividade = Atividade(**data)
+            db_atividades.session.add(atividade)
+            db_atividades.session.commit()
+            logger.info(f"Atividade gravada: {atividade.id}")
+            return atividade
+        except Exception as e:
+            db_atividades.session.rollback()
+            logger.error(f"Erro ao gravar atividade: {e}", exc_info=True)
+            raise
 
     @staticmethod
     def get_all():

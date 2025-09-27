@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from marshmallow import ValidationError
 from app.services.atividade_service import AtividadeService
 from app.schemas.atividade_schema import AtividadeSchema
+from loguru import logger
 
 atividades = Blueprint("atividades", __name__, url_prefix="/atividades")
 
@@ -11,12 +12,18 @@ atividades_schema = AtividadeSchema(many=True)
 @atividades.route("/", methods=["POST"])
 def create_atividade():
     try:
+        
         data = atividade_schema.load(request.json)
         atividade = AtividadeService.criar_atividade(data)
+        logger.info(f"Atividade criada: {atividade.id} funcional={atividade.funcional}")
         return jsonify({"message": "Atividade criada!", "id": atividade.id}), 201
     except ValidationError as err:
+
+        logger.warning(f"Erro de validação: {err.messages}")
         return jsonify({"error": str(err)}), 400
     except Exception as e:
+
+        logger.error(f"Erro ao criar atividade: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
 
