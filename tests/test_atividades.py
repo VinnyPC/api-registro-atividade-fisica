@@ -1,35 +1,60 @@
-import pytest
-from app.services.atividade_service import AtividadeService
+import json
 
-valid_payload = {
-    "funcional": "12345",
-    "nome": "Corrida",
-    "descricao": "Corrida 5km",
-    "tipo": "Corrida",
-    "duracao": 30,
-    "distancia": 5.0,
-    "intensidade": "Alta",
-    "data": "25-09-2025",
-    "calorias": 400
-}
+def test_create_atividade(client):
+    payload = {
+        "funcional": "001",
+        "nome": "Basquete",
+        "descricao": "Treino de basquete",
+        "tipo": "Esporte",
+        "duracao": 60,
+        "distancia": 0,
+        "intensidade": "Alta",
+        "data": "2025-01-15",
+        "calorias": 500
+    }
 
-def test_criar_atividade_extra_field():
-    payload = valid_payload.copy()
-    payload["extra"] = "não permitido"
-    with pytest.raises(ValueError) as excinfo:
-        AtividadeService.criar_atividade(payload)
-    assert "Campos não permitidos" in str(excinfo.value)
+    response = client.post("/atividades/", json=payload)
+    data = response.get_json()
 
-def test_criar_atividade_missing_field():
-    payload = valid_payload.copy()
-    payload.pop("nome")
-    with pytest.raises(ValueError) as excinfo:
-        AtividadeService.criar_atividade(payload)
-    assert "Campos obrigatórios faltando" in str(excinfo.value)
+    assert response.status_code == 201
+    assert "id" in data
+    assert data["message"] == "Atividade criada!"
 
-def test_criar_atividade_tipo_invalido():
-    payload = valid_payload.copy()
-    payload["duracao"] = "30 minutos"
-    with pytest.raises(ValueError) as excinfo:
-        AtividadeService.criar_atividade(payload)
-    assert "Campo 'duracao' inválido" in str(excinfo.value)
+def test_create_atividade_invalid(client):
+    payload = {"nome": "Sem funcional"}  # falta campos obrigatórios
+
+    response = client.post("/atividades/", json=payload)
+    data = response.get_json()
+
+    assert response.status_code == 400
+    assert "error" in data
+
+def test_get_atividades(client):
+    # Primeiro cria algumas atividades
+    payload1 = {"funcional": "001", "nome": "Basquete", "descricao": "", "tipo": "Esporte", "duracao": 60, "distancia": 0, "intensidade": "Alta", "data": "2025-01-15", "calorias": 500}
+    payload2 = {"funcional": "002", "nome": "Corrida", "descricao": "", "tipo": "Cardio", "duracao": 30, "distancia": 5, "intensidade": "Média", "data": "2025-01-16", "calorias": 300}
+    client.post("/atividades/", json=payload1)
+    client.post("/atividades/", json=payload2)
+
+    # Testa listagem sem filtros
+    response = client.get("/atividades/")
+    data = response.get_json()
+    assert response.status_code == 200
+    assert len(data) == 2
+
+    # Testa filtro por tipo
+    response = client.get("/atividades/?tipo=Cardio")
+    data = response.get_json()
+    assert len(data) == 1
+    assert data[0]["tipo"] == "Cardio"
+
+def test_get_atividades_by_funcional(client):
+    payload = {"funcional": "003", "nome": "Yoga", "descricao": "", "tipo": "Alongamento", "duracao": 45, "distancia": 0, "intensidade": "Baixa", "data": "2025-01-17", "calorias": 150}
+    client.post("/atividades/", json=payload)
+
+    response = client.get("/atividades/003")
+    data = response.get_json()
+
+    assert response.status_code == 200
+    assert len(data) == 1
+    assert data[0]["funcional"] == "003"
