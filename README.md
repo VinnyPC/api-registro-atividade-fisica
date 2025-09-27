@@ -13,33 +13,60 @@ API RESTful simples que permite o **registros** e **consultas** de atividades f�
 - Pytest (testes unitários)
 - Loguru (logs)
 - python-dotenv (variáveis de ambiente)
+---
+## Features
+
+- **Criação e configuração do banco de dados** facilitada com `setup_db`.
+- **Configuração de ambiente** simplificada com `requirements.txt`.
+- **Variáveis de ambiente** para segurança (conexão com banco, senhas e secrets).
+- **Validação de dados** com **Marshmallow**, garantindo que apenas dados corretos sejam processados.
+- **Respostas intuitivas ao cliente**: mensagens claras e apropriadas de acordo com o método HTTP e feedback em caso de erro.
+- Gravação e consulta: operações de consulta e gravação totalmente implementadas (detalhes na outra branch).
+- **Paginação e filtros**:
+  - Filtrar por tipo: `/atividades?tipo=Basquete`
+  - Filtrar por intervalo de datas: `/atividades?data_inicio=2025-01-01&data_fim=2025-01-31`
+  - Paginar resultados: `/atividades?page=1&per_page=10`
+
+---
+
+## Código
+
+- **Responsabilidades separadas** por arquivos `.py` (`routes`, `service`, `repository`, `models`, `schemas`), facilitando **manutenção, legibilidade e organização** do código.
+- **Uso de testes unitários** para garantir a funcionalidade do código e reduzir regressões.
+- **Uso de schemas com Marshmallow** para validação e serialização de dados, garantindo consistência entre API e banco de dados.
+- **Logging centralizado** com Loguru, permitindo monitoramento de operações e erros de forma detalhada.
+- **Tratamento de erros centralizado**, garantindo respostas consistentes para exceções e validações.
+
 
 ---
 ## Estrutura do projeto
 ```bash
-📦 api-registro-atividade-fisica
-├─ .gitignore              # Arquivo que define quais arquivos/pastas o Git deve ignorar
-├─ README.md               # Documentação do projeto
-├─ app                     # Pasta principal da aplicação
-│  ├─ __init__.py          # Cria a app factory e configura a aplicação Flask
-│  ├─ extensions.py        # Inicializa extensões como SQLAlchemy
-│  ├─ models               # Contém os modelos do banco de dados
-│  │  └─ atividade_model.py  # Define o modelo Atividade
-│  ├─ repositories         # Camada de acesso a dados (CRUD)
-│  │  └─ atividade_repository.py  # Funções para manipular dados de Atividade no banco
-│  ├─ routes               # Define rotas da aplicação
-│  │  └─ atividades_routes.py  # Blueprint de atividades (endpoints GET, POST, etc.)
-│  └─ services             # Lógica de negócio
-│     └─ atividade_service.py  # Validação de dados e chamada ao repository
-├─ requirements.txt        # Dependências do projeto (pip install -r requirements.txt)
-├─ run.py                  # Entrypoint da aplicação (inicia o servidor Flask)
-├─ setup_db.py             # Script para criar/configurar o banco de dados
-└─ tests                   # Testes automatizados da aplicação
-   ├─ __init__.py          # Permite que a pasta seja reconhecida como pacote Python
-   ├─ conftest.py          # Fixtures e configurações globais do pytest
-   └─ test_atividades.py   # Testes unitários das rotas de atividades
 
-
+📦 
+├─ .gitignore
+├─ README.md
+├─ app
+│  ├─ __init__.py
+│  ├─ exceptions
+│  │  └─ errors.py
+│  ├─ extensions.py
+│  ├─ models
+│  │  └─ atividade_model.py
+│  ├─ repositories
+│  │  └─ atividade_repository.py
+│  ├─ routes
+│  │  └─ atividades_routes.py
+│  ├─ schemas
+│  │  └─ atividade_schema.py
+│  └─ services
+│     └─ atividade_service.py
+├─ requirements.txt
+├─ run.py
+├─ setup_db.py
+└─ tests
+   ├─ __init__.py
+   ├─ conftest.py
+   └─ test_atividades.py
 ```
 ---
 
@@ -95,14 +122,26 @@ Execute o script de setup para criar o banco e tabelas:
 ```
 Por padrão, a API fica disponível em: http://127.0.0.1:5000
 
+### Populando seu banco de dados
+Execute o script para popular o banco de dados com vários registros:
+
+```bash
+  python populate_db.py
+```
+
 
 ---
 ### Endpoints
-| **Método** | **URL**                 | **Descrição**                    |
-|------------|-------------------------|----------------------------------|
-| POST       | /atividades/            | Criar nova ativide               |
-| GET        | /atividades/            | Listar todas as atividades       |
-| GET        | /atividades/<funcional> | Buscar atividades pela funcional |
+
+| **Método** | **URL**                     | **Descrição**                                                    |
+|------------|-----------------------------|------------------------------------------------------------------|
+| POST       | /atividades/                | Criar nova atividade                                             |
+| GET        | /atividades/                | Listar todas as atividades                                       |
+| GET        | /atividades/<funcional>     | Buscar atividades pela funcional                                 |
+| GET        | /atividades?tipo=<tipo>     | Filtrar atividades por tipo (ex: `/atividades?tipo=Basquete`)   |
+| GET        | /atividades?data_inicio=<YYYY-MM-DD>&data_fim=<YYYY-MM-DD> | Filtrar atividades por intervalo de datas |
+| GET        | /atividades?page=<n>&per_page=<m> | Paginar resultados (ex: `/atividades?page=1&per_page=10`) |
+
 
 ---
 
