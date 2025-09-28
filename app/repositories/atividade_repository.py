@@ -1,12 +1,15 @@
 from app.models.atividade_model import Atividade
 from app.extensions import db_atividades
 from loguru import logger
+from datetime import datetime
 
 class AtividadeRepository:
 
     @staticmethod
     def create(data):
         try:
+            if "data" in data and isinstance(data["data"], str):
+                data["data"] = datetime.strptime(data["data"], "%Y-%m-%d").date()
             atividade = Atividade(**data)
             db_atividades.session.add(atividade)
             db_atividades.session.commit()
@@ -47,3 +50,19 @@ class AtividadeRepository:
             "pages": pagination.pages,
             "per_page": pagination.per_page
         }
+        
+    @staticmethod
+    def get_by_id(id):
+        return Atividade.query.get(id)
+
+    @staticmethod
+    def update(atividade):
+        if isinstance(atividade.data, str):
+            atividade.data = datetime.strptime(atividade.data, "%Y-%m-%d").date()
+        db_atividades.session.commit()
+        return atividade
+
+    @staticmethod
+    def delete(atividade):
+        db_atividades.session.delete(atividade)
+        db_atividades.session.commit()

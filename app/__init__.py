@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 from loguru import logger
 from app.exceptions.errors import register_error_handlers
+from app.models import atividade_model
 
 load_dotenv()
 
@@ -26,7 +27,7 @@ def configure_logger():
 def create_app():
     try:
         app = Flask(__name__)
-        logger = configure_logger()
+        configure_logger()
 
         DB_HOST = os.getenv('DB_HOST', '127.0.0.1')
         DB_PORT = int(os.getenv('DB_PORT', 3306))
@@ -43,7 +44,6 @@ def create_app():
         app.register_blueprint(atividades)
 
         with app.app_context():
-            from app.models import atividade_model
             db_atividades.create_all()
 
         logger.info("App inicializado com sucesso!")
