@@ -36,15 +36,15 @@ def get_atividades():
 
 
         filters = {}
-        tipo = request.args.get("tipo")
-        data_inicio = request.args.get("data_inicio")
-        data_fim = request.args.get("data_fim")
+        codigoAtividade = request.args.get("codigoAtividade")
+        dataHora_inicio = request.args.get("dataHora_inicio")
+        dataHora_fim = request.args.get("dataHora_fim")
 
-        if tipo:
-            filters["tipo"] = tipo
-        if data_inicio and data_fim:
-            filters["data_inicio"] = data_inicio
-            filters["data_fim"] = data_fim
+        if codigoAtividade:
+            filters["codigoAtividade"] = codigoAtividade
+        if dataHora_inicio and dataHora_fim:
+            filters["dataHora_inicio"] = dataHora_inicio
+            filters["dataHora_fim"] = dataHora_fim
 
         atividades = AtividadeService.listar_atividades(page, per_page, filters)
 

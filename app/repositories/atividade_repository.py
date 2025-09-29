@@ -1,6 +1,7 @@
 from app.models.atividade_model import Atividade
 from app.extensions import db_atividades
 from loguru import logger
+from datetime import datetime
 
 class AtividadeRepository:
 
@@ -30,12 +31,12 @@ class AtividadeRepository:
         query = Atividade.query
 
         if filters:
-            if "tipo" in filters:
-                query = query.filter(Atividade.tipo == filters["tipo"])
-            if "data_inicio" in filters and "data_fim" in filters:
-                query = query.filter(
-                    Atividade.data.between(filters["data_inicio"], filters["data_fim"])
-                )
+            if "codigoAtividade" in filters:
+                query = query.filter(Atividade.codigoAtividade == filters["codigoAtividade"])
+            if "dataHora_inicio" in filters and "dataHora_fim" in filters:
+                inicio = datetime.fromisoformat(filters["dataHora_inicio"])
+                fim = datetime.fromisoformat(filters["dataHora_fim"])
+                query = query.filter(Atividade.dataHora.between(inicio, fim))
 
 
         pagination = query.paginate(page=page, per_page=per_page, error_out=False)
