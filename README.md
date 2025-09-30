@@ -162,6 +162,9 @@ Execute o script para popular o banco de dados com vários registros:
   
 <img width="1202" height="556" alt="image" src="https://github.com/user-attachments/assets/2d3f4c41-e9fb-46fe-8f0e-51e7b5382321" />
 
+---
+### Filtros: Você pode refinar sua busca usando um ou mais filtros na sua API via query string!
+
 
 #### Listar todas as atividades de um funcionário específico
 **Exemplo**: `GET http://127.0.0.1:5000/atividades/<funcional>`  
@@ -178,6 +181,14 @@ Execute o script para popular o banco de dados com vários registros:
 **Exemplo**: `GET http://127.0.0.1:5000/atividades?codigoAtividade=GYM`  
   
 <img width="1317" height="679" alt="image" src="https://github.com/user-attachments/assets/ddc1d1b4-fc0f-476e-96a2-aab4efe90130" />
+
+#### Listar todas as atividades com código "GYM" e que estão cadastadas com datas entre 24/09/2025 às 07:00 e 30/09/2025 às 08:30:00, além disso, visualizar a primeira página e mostrar apenas 4 itens por página
+**Exemplo**: `GET http://127.0.0.1:5000/atividades?dataHora_inicio=2025-09-24T07:00:00&dataHora_fim=2026-09-30T08:30:00&codigoAtividade=GYM&page=1&per_page=4`  
+
+<img width="1251" height="822" alt="image" src="https://github.com/user-attachments/assets/f0dc2ba7-0b20-425f-8c9c-e9970a2e44be" />
+
+
+
 
 
 
