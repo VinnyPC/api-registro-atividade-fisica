@@ -14,28 +14,71 @@ def populate():
         logger.info("Populando banco de dados com dados de teste...")
 
         atividades_teste = [
-        {
-        "funcional": "123456",
-        "dataHora": "2025-09-24T07:30:00",
-        "codigoAtividade": "RUN",
-        "descricaoAtividade": "correr 5km"
-        },
-        {
-            "funcional": "654321",
-            "dataHora": "2025-09-25T08:00:00",
-            "codigoAtividade": "SWIM",
-            "descricaoAtividade": "nadar 1km"
-        },
-        {
-            "funcional": "112233",
-            "dataHora": "2025-09-26T18:45:00",
-            "codigoAtividade": "GYM",
-            "descricaoAtividade": "treino de força"
-        }
+            {
+                "funcional": "1234567",
+                "dataHora": "2000-09-30T07:30:00",
+                "codigoAtividade": "RUN",
+                "descricaoAtividade": "Correr 5km"
+            },
+            {
+                "funcional": "1234568",
+                "dataHora": "2001-01-15T18:45:00",
+                "codigoAtividade": "BIKE",
+                "descricaoAtividade": "Pedalar 20km"
+            },
+            {
+                "funcional": "1234569",
+                "dataHora": "2002-03-10T06:15:00",
+                "codigoAtividade": "SWIM",
+                "descricaoAtividade": "Nadar 1km"
+            },
+            {
+                "funcional": "1234570",
+                "dataHora": "2003-05-05T19:00:00",
+                "codigoAtividade": "GYM",
+                "descricaoAtividade": "Treino de musculação"
+            },
+            {
+                "funcional": "1234571",
+                "dataHora": "2004-07-21T07:10:00",
+                "codigoAtividade": "RUN",
+                "descricaoAtividade": "Corrida de 10km"
+            },
+            {
+                "funcional": "1234572",
+                "dataHora": "2005-09-12T12:30:00",
+                "codigoAtividade": "HIKE",
+                "descricaoAtividade": "Trilha de 5km"
+            },
+            {
+                "funcional": "1234573",
+                "dataHora": "2006-11-30T16:00:00",
+                "codigoAtividade": "ROW",
+                "descricaoAtividade": "Remar por 45 minutos"
+            },
+            {
+                "funcional": "1234574",
+                "dataHora": "2007-02-14T20:20:00",
+                "codigoAtividade": "BOX",
+                "descricaoAtividade": "Treino de boxe"
+            },
+            {
+                "funcional": "1234575",
+                "dataHora": "2008-04-28T08:40:00",
+                "codigoAtividade": "RUN",
+                "descricaoAtividade": "Corrida leve de 3km"
+            },
+            {
+                "funcional": "1234576",
+                "dataHora": "2009-08-09T17:25:00",
+                "codigoAtividade": "YOGA",
+                "descricaoAtividade": "Sessão de yoga 1h"
+            }
         ]
 
         with app.app_context():
             for data in atividades_teste:
+                data["dataHora"] = datetime.fromisoformat(data["dataHora"])
                 AtividadeRepository.create(data)
 
         logger.success("Banco de dados populado com sucesso!")
