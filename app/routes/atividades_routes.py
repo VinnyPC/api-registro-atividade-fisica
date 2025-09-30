@@ -40,15 +40,26 @@ def get_atividades():
             filters["dataHora_inicio"] = dataHora_inicio
             filters["dataHora_fim"] = dataHora_fim
         
+        # Se não houver filtros nem paginação, retorna todos
         if not filters and not request.args.get("page") and not request.args.get("per_page"):
             atividades_list = AtividadeService.buscar_todas()
             return jsonify({
-                "itens":atividades_schema.dump(atividades_list), "total": len(atividades_list)}), 200,
-                
+                "itens": atividades_schema.dump(atividades_list),
+                "total": len(atividades_list)
+            }), 200
+        
+        # Paginação + filtros
         page = int(request.args.get("page", 1))
         per_page = int(request.args.get("per_page", 10))
-        atividades = AtividadeService.listar_atividades(page, per_page, filters)
-        return jsonify({"itens":atividades, "total":len(atividades_list)}), 200
+        atividades_pag = AtividadeService.listar_atividades(page, per_page, filters)
+
+        return jsonify({
+            "itens": atividades_pag["items"],
+            "total": atividades_pag["total"],
+            "page": atividades_pag["page"],
+            "pages": atividades_pag["pages"],
+            "per_page": atividades_pag["per_page"]
+        }), 200
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
