@@ -1,0 +1,320 @@
+type: collection.insomnia.rest/5.0
+name: Scratch Pad
+meta:
+  id: wrk_scratchpad
+  created: 1733692900341
+  modified: 1733692900341
+  description: ""
+collection:
+  - name: Outros projetos
+    meta:
+      id: fld_97217a7ee56d4408914093f0a8dbe607
+      created: 1758841460643
+      modified: 1758841460643
+      sortKey: -1758841460643
+      description: ""
+    children:
+      - name: Joguinho da vida
+        meta:
+          id: fld_0f64e53ea83545dc81050e62bf3221b1
+          created: 1752187214632
+          modified: 1758841481691
+          sortKey: -1758841476523
+          description: ""
+        children:
+          - name: Auth
+            meta:
+              id: fld_afb8934ea3eb46128b2fde9fe0be0a86
+              created: 1752187790042
+              modified: 1752187792582
+              sortKey: -1752187790042
+              description: ""
+          - name: Categorias
+            meta:
+              id: fld_9f0217bfa98847789038c503669cb891
+              created: 1752351173384
+              modified: 1752351173384
+              sortKey: -1752351173384
+              description: ""
+          - name: Missão
+            meta:
+              id: fld_ebc8c178e136489d8dcf677ab0a8b924
+              created: 1752351199303
+              modified: 1752351213552
+              sortKey: -1752351199503
+              description: ""
+          - name: Usuario
+            meta:
+              id: fld_6e71a157c9304b32bde0628a7c429cfe
+              created: 1752431707994
+              modified: 1752431722398
+              sortKey: -1752431708194
+              description: ""
+          - name: Missoes usuario
+            meta:
+              id: fld_119e284af92b4f899ed00e2c8d265658
+              created: 1752528912998
+              modified: 1752528915259
+              sortKey: -1752431708294
+              description: ""
+      - name: JWT Token
+        meta:
+          id: fld_3770cfa763d0447dae2a249561ac873c
+          created: 1755216290091
+          modified: 1758841480051
+          sortKey: -1758841476423
+          description: ""
+      - name: My Collection
+        meta:
+          id: fld_290232f9fc9340d3ad06df2b99daac36
+          created: 1755731393713
+          modified: 1758841476343
+          sortKey: -1758841476323
+          description: |-
+            ### Welcome to Postman! This is your first collection. 
+
+            Collections are your starting point for building and testing APIs. You can use this one to:
+
+            • Group related requests
+            • Test your API in real-world scenarios
+            • Document and share your requests
+
+            Update the name and overview whenever you’re ready to make it yours.
+
+            [Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)
+        children:
+          - name: Usuarios
+            meta:
+              id: fld_1ed18cc78da54c7296cb3e4c77559f34
+              created: 1755731393715
+              modified: 1758595134935
+              sortKey: -1755731392022
+              description: ""
+          - name: Missao
+            meta:
+              id: fld_05d545e0d7a1451da2d5c8e0bdc5c66b
+              created: 1755821089737
+              modified: 1758593741157
+              sortKey: -1755473841056.5
+              description: ""
+  - name: Atividades físicas dos funcionários CRUD
+    meta:
+      id: fld_be32b6ba3ee04d4c8e96e75ca51887fb
+      created: 1759005800630
+      modified: 1759005808364
+      sortKey: -1757283476922
+      description: ""
+  - name: Atividades físicas dos funcionários API
+    meta:
+      id: fld_994e6ce2bb504d508c98fa491aa79130
+      created: 1759184030108
+      modified: 1759184030108
+      sortKey: -1756507434472
+      description: ""
+  - name: "Atividades físicas dos funcionários "
+    meta:
+      id: fld_3f428850a4444145b2af529e40461ccf
+      created: 1759197695041
+      modified: 1759197695041
+      sortKey: -1756895455697
+      description: ""
+    children:
+      - url: http://127.0.0.1:5000/atividades/
+        name: Registrar uma nova atividade física
+        meta:
+          id: req_feb81d4dbad24663a9910b45f455653f
+          created: 1759197695042
+          modified: 1759197695042
+          isPrivate: false
+          description: ""
+          sortKey: -1758835572267
+        method: POST
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "funcional":"12345",
+              "dataHora":"2025-09-25T08:26:00",
+              "codigoAtividade":"GYM",
+              "descricaoAtividade":"correr 5km"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:5000/atividades/
+        name: Listar todas as atividades registradas
+        meta:
+          id: req_5a724349823547349c2fcf2affacb852
+          created: 1759197695043
+          modified: 1759197695043
+          isPrivate: false
+          description: ""
+          sortKey: -1757283482144
+        method: GET
+        body:
+          mimeType: application/json
+          text: ""
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:5000/atividades/12345
+        name: Listar todas as atividades de um funcionário específico
+        meta:
+          id: req_2e00623d708a472cb91b4d22c8bcc2ba
+          created: 1759197695044
+          modified: 1759197695044
+          isPrivate: false
+          description: ""
+          sortKey: -1756507437082.5
+        method: GET
+        body:
+          mimeType: application/json
+          text: ""
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:5000/atividades?dataHora_inicio=2000-09-30T07:00:00&dataHora_fim=2026-09-30T08:30:00&codigoAtividade=GYM&page=1&per_page=50
+        name: Listar todas as atividades registradas (paginação)
+        meta:
+          id: req_cd2f0263099e4b3084a5f535bb0dcc88
+          created: 1759197695046
+          modified: 1759197695046
+          isPrivate: false
+          description: ""
+          sortKey: -1756895459613.25
+        method: GET
+        body:
+          mimeType: application/json
+          text: ""
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:5000/atividades?dataHora_inicio=2025-09-24T07:00:00&dataHora_fim=2026-09-30T08:30:00&codigoAtividade=GYM&page=1&per_page=4
+        name: Listar todas as atividades registradas (data)
+        meta:
+          id: req_0c3f311cacfa4f4580581c4b65054a94
+          created: 1759197695047
+          modified: 1759197695047
+          isPrivate: false
+          description: ""
+          sortKey: -1757089470878.625
+        method: GET
+        body:
+          mimeType: application/json
+          text: ""
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://127.0.0.1:5000/atividades?codigoAtividade=GYM
+        name: Listar todas as atividades registradas (codigoAtividade)
+        meta:
+          id: req_11b213fd549f422ea1d736dd89ba1f93
+          created: 1759197695048
+          modified: 1759197695048
+          isPrivate: false
+          description: ""
+          sortKey: -1756992465245.9375
+        method: GET
+        body:
+          mimeType: application/json
+          text: ""
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1733692916427
+    modified: 1758595134930
+  cookies:
+    - id: b733bca4-006f-4a80-8450-f65efdda0a45
+      key: XSRF-TOKEN
+      value: a67a0078-8bd9-4e9d-b93f-c06fe7b3adb1
+      domain: us-east-1yhi78jvvh.auth.us-east-1.amazoncognito.com
+      path: /
+      secure: true
+      httpOnly: true
+      creation: 2025-08-15T00:50:28.639Z
+      hostOnly: true
+      lastAccessed: 2025-08-15T00:50:28.639Z
+    - id: 96156e96-4fdb-47bd-af09-88626290f28b
+      key: XSRF-TOKEN
+      value: 03b6220e-5139-46f0-ada4-bf01049f8fb4
+      domain: us-east-183ju4bbly.auth.us-east-1.amazoncognito.com
+      path: /
+      secure: true
+      httpOnly: true
+      creation: 2025-08-16T21:03:56.979Z
+      hostOnly: true
+      lastAccessed: 2025-08-16T21:03:56.979Z
+environments:
+  name: Base Environment
+  meta:
+    id: env_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1733692916316
+    modified: 1758595134934
+    isPrivate: false
+  data:
+    COGNITO_TOKEN: "{% AwsCognitoToken 'vinicius', 'Ab@caxi13', 'us-east-1',
+      '5g7up90gs89nb87tj2od4e2qun', 'access', '' %}"
