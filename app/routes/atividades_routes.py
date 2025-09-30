@@ -15,7 +15,6 @@ def create_atividade():
         
         data = atividade_schema.load(request.json)
         atividade = AtividadeService.criar_atividade(data)
-        logger.info(f"Atividade criada: {atividade.id} funcional={atividade.funcional}")
         return jsonify({"message": "Atividade criada!", "id": atividade.id}), 201
     except ValidationError as err:
 
@@ -43,14 +42,14 @@ def get_atividades():
         
         if not filters and not request.args.get("page") and not request.args.get("per_page"):
             atividades_list = AtividadeService.buscar_todas()
-            return jsonify(atividades_schema.dump(atividades_list)), 200
-
+            return jsonify({
+                "itens":atividades_schema.dump(atividades_list), "total": len(atividades_list)}), 200,
+                
         page = int(request.args.get("page", 1))
         per_page = int(request.args.get("per_page", 10))
         atividades = AtividadeService.listar_atividades(page, per_page, filters)
-        
-
-        return jsonify(atividades), 200
+        return jsonify({"itens":atividades, "total":len(atividades_list)}), 200
+    
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -58,7 +57,7 @@ def get_atividades():
 def get_atividades_by_funcional(funcional):
     try:
         atividades_list = AtividadeService.buscar_por_funcional(funcional)
-        return jsonify(atividades_schema.dump(atividades_list)), 200
+        return jsonify({"itens": atividades_schema.dump(atividades_list), "total": len(atividades_list)}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     

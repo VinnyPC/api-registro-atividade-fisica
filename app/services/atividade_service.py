@@ -2,13 +2,8 @@ from app.repositories.atividade_repository import AtividadeRepository
 from loguru import logger
 
 class AtividadeService:
-    REQUIRED_FIELDS = [
-        "funcional", "nome", "descricao", "tipo",
-        "duracao", "distancia", "intensidade", "data", "calorias"
-    ]
     @staticmethod
     def criar_atividade(data: dict):
-        logger.info(f"Atividade criada: {id}")
         return AtividadeRepository.create(data)
     
     @staticmethod
