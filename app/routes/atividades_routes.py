@@ -30,11 +30,6 @@ def create_atividade():
 @atividades.route("/", methods=["GET"])
 def get_atividades():
     try:
-
-        page = int(request.args.get("page", 1))
-        per_page = int(request.args.get("per_page", 10))
-
-
         filters = {}
         codigoAtividade = request.args.get("codigoAtividade")
         dataHora_inicio = request.args.get("dataHora_inicio")
@@ -45,8 +40,15 @@ def get_atividades():
         if dataHora_inicio and dataHora_fim:
             filters["dataHora_inicio"] = dataHora_inicio
             filters["dataHora_fim"] = dataHora_fim
+        
+        if not filters and not request.args.get("page") and not request.args.get("per_page"):
+            atividades_list = AtividadeService.buscar_todas()
+            return jsonify(atividades_schema.dump(atividades_list)), 200
 
+        page = int(request.args.get("page", 1))
+        per_page = int(request.args.get("per_page", 10))
         atividades = AtividadeService.listar_atividades(page, per_page, filters)
+        
 
         return jsonify(atividades), 200
     except Exception as e:
